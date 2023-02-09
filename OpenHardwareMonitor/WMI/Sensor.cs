@@ -9,11 +9,9 @@
 */
 
 using OpenHardwareMonitor.Hardware;
-using System.Management.Instrumentation;
 
 namespace OpenHardwareMonitor.WMI
 {
-    [InstrumentationClass(InstrumentationType.Instance)]
     public class Sensor : IWmiObject
     {
         private ISensor sensor;

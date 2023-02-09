@@ -12,12 +12,6 @@
 using OpenHardwareMonitor.Hardware;
 using System;
 using System.Collections.Generic;
-using System.Management.Instrumentation;
-
-[assembly: Instrumented("root/OpenHardwareMonitor")]
-
-[System.ComponentModel.RunInstaller(true)]
-public class InstanceInstaller : DefaultManagementProjectInstaller { }
 
 namespace OpenHardwareMonitor.WMI
 {
@@ -60,12 +54,6 @@ namespace OpenHardwareMonitor.WMI
 
                 Hardware hw = new Hardware(hardware);
                 activeInstances.Add(hw);
-
-                try
-                {
-                    Instrumentation.Publish(hw);
-                }
-                catch (Exception) { }
             }
 
             foreach (IHardware subHardware in hardware.SubHardware)
@@ -76,12 +64,6 @@ namespace OpenHardwareMonitor.WMI
         {
             Sensor sensor = new Sensor(data);
             activeInstances.Add(sensor);
-
-            try
-            {
-                Instrumentation.Publish(sensor);
-            }
-            catch (Exception) { }
         }
 
         private void ComputerHardwareRemoved(IHardware hardware)
@@ -121,12 +103,6 @@ namespace OpenHardwareMonitor.WMI
             if (instanceIndex == -1)
                 return;
 
-            try
-            {
-                Instrumentation.Revoke(activeInstances[instanceIndex]);
-            }
-            catch (Exception) { }
-
             activeInstances.RemoveAt(instanceIndex);
         }
 
@@ -136,11 +112,6 @@ namespace OpenHardwareMonitor.WMI
         {
             foreach (IWmiObject instance in activeInstances)
             {
-                try
-                {
-                    Instrumentation.Revoke(instance);
-                }
-                catch (Exception) { }
             }
             activeInstances = null;
         }

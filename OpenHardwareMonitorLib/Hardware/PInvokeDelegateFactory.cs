@@ -22,7 +22,7 @@ namespace OpenHardwareMonitor.Hardware
     {
 
         private static readonly ModuleBuilder moduleBuilder =
-          AppDomain.CurrentDomain.DefineDynamicAssembly(
+          AssemblyBuilder.DefineDynamicAssembly(
             new AssemblyName("PInvokeDelegateFactoryInternalAssembly"),
             AssemblyBuilderAccess.Run).DefineDynamicModule(
             "PInvokeDelegateFactoryInternalModule");

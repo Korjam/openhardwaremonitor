@@ -38,6 +38,7 @@ namespace OpenHardwareMonitor
                 Environment.Exit(0);
 
             Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.SetCompatibleTextRenderingDefault(false);
             using (GUI.MainForm form = new GUI.MainForm())
             {
