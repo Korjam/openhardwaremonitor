@@ -29,9 +29,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot.Series
 {
-    using System.Globalization;
-
     using OxyPlot.Axes;
+    using System.Globalization;
 
     /// <summary>
     /// Provides an abstract base class for plot series.

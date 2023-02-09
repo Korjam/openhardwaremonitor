@@ -29,8 +29,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot
 {
-    using System;
-
     /// <summary>
     /// Provides an abstract base class for elements contained in a <see cref="PlotModel"/>.
     /// </summary>

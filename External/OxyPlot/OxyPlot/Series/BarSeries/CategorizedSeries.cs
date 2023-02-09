@@ -29,9 +29,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot.Series
 {
-    using System.Collections.Generic;
-
     using OxyPlot.Axes;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Base class for series where the items are categorized.

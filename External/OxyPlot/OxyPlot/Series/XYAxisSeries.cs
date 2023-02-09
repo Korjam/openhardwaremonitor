@@ -30,10 +30,9 @@
 
 namespace OxyPlot.Series
 {
+    using OxyPlot.Axes;
     using System;
     using System.Collections.Generic;
-
-    using OxyPlot.Axes;
 
     /// <summary>
     /// Provides an abstract base class for series that are related to an X-axis and a Y-axis.

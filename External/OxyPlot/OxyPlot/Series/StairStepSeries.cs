@@ -213,32 +213,32 @@ namespace OxyPlot.Series
                             }
 
                             rc.DrawClippedLineSegments(
-                                hlpts, 
-                                clippingRect, 
-                                this.GetSelectableColor(this.ActualColor), 
-                                this.StrokeThickness, 
-                                lineStyle, 
-                                this.LineJoin, 
+                                hlpts,
+                                clippingRect,
+                                this.GetSelectableColor(this.ActualColor),
+                                this.StrokeThickness,
+                                lineStyle,
+                                this.LineJoin,
                                 false);
                             rc.DrawClippedLineSegments(
-                                vlpts, 
-                                clippingRect, 
-                                this.GetSelectableColor(this.ActualColor), 
-                                verticalStrokeThickness, 
-                                this.VerticalLineStyle, 
-                                this.LineJoin, 
+                                vlpts,
+                                clippingRect,
+                                this.GetSelectableColor(this.ActualColor),
+                                verticalStrokeThickness,
+                                this.VerticalLineStyle,
+                                this.LineJoin,
                                 false);
                         }
                         else
                         {
                             rc.DrawClippedLine(
-                                lpts, 
-                                clippingRect, 
-                                0, 
-                                this.GetSelectableColor(this.ActualColor), 
-                                this.StrokeThickness, 
-                                lineStyle, 
-                                this.LineJoin, 
+                                lpts,
+                                clippingRect,
+                                0,
+                                this.GetSelectableColor(this.ActualColor),
+                                this.StrokeThickness,
+                                lineStyle,
+                                this.LineJoin,
                                 false);
                         }
                     }
@@ -246,13 +246,13 @@ namespace OxyPlot.Series
                     if (this.MarkerType != MarkerType.None)
                     {
                         rc.DrawMarkers(
-                            mpts, 
-                            clippingRect, 
-                            this.MarkerType, 
-                            this.MarkerOutline, 
-                            new[] { this.MarkerSize }, 
-                            this.MarkerFill, 
-                            this.MarkerStroke, 
+                            mpts,
+                            clippingRect,
+                            this.MarkerType,
+                            this.MarkerOutline,
+                            new[] { this.MarkerSize },
+                            this.MarkerFill,
+                            this.MarkerStroke,
                             this.MarkerStrokeThickness);
                     }
                 };

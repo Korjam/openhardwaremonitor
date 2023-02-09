@@ -182,13 +182,13 @@ namespace OxyPlot.Series
                 if (this.StrokeThickness > 0 && this.ActualLineStyle != LineStyle.None)
                 {
                     rc.DrawClippedLine(
-                        new[] { p0, p1 }, 
-                        clippingRect, 
-                        minDistSquared, 
-                        this.GetSelectableColor(this.ActualColor), 
-                        this.StrokeThickness, 
-                        this.ActualLineStyle, 
-                        this.LineJoin, 
+                        new[] { p0, p1 },
+                        clippingRect,
+                        minDistSquared,
+                        this.GetSelectableColor(this.ActualColor),
+                        this.StrokeThickness,
+                        this.ActualLineStyle,
+                        this.LineJoin,
                         false);
                 }
 
@@ -198,13 +198,13 @@ namespace OxyPlot.Series
             if (this.MarkerType != MarkerType.None)
             {
                 rc.DrawMarkers(
-                    markerPoints, 
-                    clippingRect, 
-                    this.MarkerType, 
-                    this.MarkerOutline, 
-                    new[] { this.MarkerSize }, 
-                    this.MarkerFill, 
-                    this.MarkerStroke, 
+                    markerPoints,
+                    clippingRect,
+                    this.MarkerType,
+                    this.MarkerOutline,
+                    new[] { this.MarkerSize },
+                    this.MarkerFill,
+                    this.MarkerStroke,
                     this.MarkerStrokeThickness);
             }
         }

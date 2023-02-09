@@ -29,6 +29,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot.WindowsForms
 {
+    using OxyPlot;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -36,8 +37,6 @@ namespace OxyPlot.WindowsForms
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
-
-    using OxyPlot;
 
     /// <summary>
     /// The graphics render context.
@@ -137,7 +136,7 @@ namespace OxyPlot.WindowsForms
                         pen.LineJoin = LineJoin.Bevel;
                         break;
 
-                    // The default LineJoin is Miter
+                        // The default LineJoin is Miter
                 }
 
                 this.g.DrawLines(pen, this.ToPoints(points));
@@ -195,7 +194,7 @@ namespace OxyPlot.WindowsForms
                             pen.LineJoin = LineJoin.Bevel;
                             break;
 
-                        // The default LineJoin is Miter
+                            // The default LineJoin is Miter
                     }
 
                     this.g.DrawPolygon(pen, pts);
@@ -485,13 +484,13 @@ namespace OxyPlot.WindowsForms
                 if (opacity < 1)
                 {
                     var cm = new ColorMatrix
-                                 {
-                                     Matrix00 = 1f,
-                                     Matrix11 = 1f,
-                                     Matrix22 = 1f,
-                                     Matrix33 = 1f,
-                                     Matrix44 = (float)opacity
-                                 };
+                    {
+                        Matrix00 = 1f,
+                        Matrix11 = 1f,
+                        Matrix22 = 1f,
+                        Matrix33 = 1f,
+                        Matrix44 = (float)opacity
+                    };
 
                     ia = new ImageAttributes();
                     ia.SetColorMatrix(cm, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);

@@ -29,9 +29,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot
 {
-    using System;
-
     using OxyPlot.Axes;
+    using System;
 
     /// <summary>
     /// Provides functionality to render <see cref="AngleAxis"/>.

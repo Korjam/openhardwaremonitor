@@ -70,7 +70,7 @@ namespace OxyPlot
             // Replace items on the format {Property[:Formatstring]}
             var s = FormattingExpression.Replace(
                 formatString,
-                delegate(Match match)
+                delegate (Match match)
                     {
                         var property = match.Groups["Property"].Value;
                         if (property.Length > 0 && char.IsDigit(property[0]))

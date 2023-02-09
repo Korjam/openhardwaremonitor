@@ -29,13 +29,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     using OxyPlot.Annotations;
     using OxyPlot.Axes;
     using OxyPlot.Series;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public partial class PlotModel
     {
@@ -53,7 +52,7 @@ namespace OxyPlot
                 {
                     return;
                 }
-                
+
                 this.Width = width;
                 this.Height = height;
 
@@ -302,14 +301,14 @@ namespace OxyPlot
             {
                 rc.DrawRectangleAsPolygon(this.PlotArea, null, this.PlotAreaBorderColor, this.PlotAreaBorderThickness);
 
-                foreach (var axis in this.Axes) 
+                foreach (var axis in this.Axes)
                 {
                     if (!axis.IsAxisVisible)
                         continue;
 
-                    if (axis.IsHorizontal()) 
+                    if (axis.IsHorizontal())
                     {
-                        var start = this.PlotArea.Left + 
+                        var start = this.PlotArea.Left +
                             this.PlotArea.Width * axis.StartPosition;
                         if (axis.StartPosition < 1 && axis.StartPosition > 0)
                             rc.DrawLine(new[] {
@@ -326,13 +325,13 @@ namespace OxyPlot
                                 new ScreenPoint(end, this.PlotArea.Bottom) },
                                     this.PlotAreaBorderColor, this.PlotAreaBorderThickness,
                                 null, OxyPenLineJoin.Miter, true);
-                    } 
-                    else 
+                    }
+                    else
                     {
-                        var start = this.PlotArea.Bottom - 
+                        var start = this.PlotArea.Bottom -
                             this.PlotArea.Height * axis.StartPosition;
                         if (axis.StartPosition < 1 && axis.StartPosition > 0)
-                            rc.DrawLine(new[] { 
+                            rc.DrawLine(new[] {
                                 new ScreenPoint(this.PlotArea.Left, start),
                                 new ScreenPoint(this.PlotArea.Right, start) },
                                     this.PlotAreaBorderColor, this.PlotAreaBorderThickness,
@@ -341,7 +340,7 @@ namespace OxyPlot
                         var end = this.PlotArea.Bottom -
                             this.PlotArea.Height * axis.EndPosition;
                         if (axis.EndPosition < 1 && axis.EndPosition > 0)
-                            rc.DrawLine(new[] { 
+                            rc.DrawLine(new[] {
                                 new ScreenPoint(this.PlotArea.Left, end),
                                 new ScreenPoint(this.PlotArea.Right, end) },
                                     this.PlotAreaBorderColor, this.PlotAreaBorderThickness,

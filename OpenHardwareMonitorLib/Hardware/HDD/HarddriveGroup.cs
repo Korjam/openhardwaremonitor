@@ -10,47 +10,53 @@
 
 */
 
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 
-namespace OpenHardwareMonitor.Hardware.HDD {
-  internal class HarddriveGroup : IGroup {
+namespace OpenHardwareMonitor.Hardware.HDD
+{
+    internal class HarddriveGroup : IGroup
+    {
 
-    private const int MAX_DRIVES = 32;
+        private const int MAX_DRIVES = 32;
 
-    private readonly List<AbstractHarddrive> hardware = 
-      new List<AbstractHarddrive>();
+        private readonly List<AbstractHarddrive> hardware =
+          new List<AbstractHarddrive>();
 
-    public HarddriveGroup(ISettings settings) {
-      if (OperatingSystem.IsUnix) 
-        return;
+        public HarddriveGroup(ISettings settings)
+        {
+            if (OperatingSystem.IsUnix)
+                return;
 
-      ISmart smart = new WindowsSmart();
+            ISmart smart = new WindowsSmart();
 
-      for (int drive = 0; drive < MAX_DRIVES; drive++) {
-        AbstractHarddrive instance =
-          AbstractHarddrive.CreateInstance(smart, drive, settings);
-        if (instance != null) {
-          this.hardware.Add(instance);
+            for (int drive = 0; drive < MAX_DRIVES; drive++)
+            {
+                AbstractHarddrive instance =
+                  AbstractHarddrive.CreateInstance(smart, drive, settings);
+                if (instance != null)
+                {
+                    this.hardware.Add(instance);
+                }
+            }
         }
-      }
-    }
 
-    public IHardware[] Hardware {
-      get {
-        return hardware.ToArray();
-      }
-    }
+        public IHardware[] Hardware
+        {
+            get
+            {
+                return hardware.ToArray();
+            }
+        }
 
-    public string GetReport() {
-      return null;
-    }
+        public string GetReport()
+        {
+            return null;
+        }
 
-    public void Close() {
-      foreach (AbstractHarddrive hdd in hardware) 
-        hdd.Close();
+        public void Close()
+        {
+            foreach (AbstractHarddrive hdd in hardware)
+                hdd.Close();
+        }
     }
-  }
 }

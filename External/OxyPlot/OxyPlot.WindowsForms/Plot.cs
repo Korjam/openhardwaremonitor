@@ -29,15 +29,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot.WindowsForms
 {
+    using OxyPlot.Axes;
+    using OxyPlot.Series;
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
-
-    using OxyPlot.Axes;
-    using OxyPlot.Series;
 
     /// <summary>
     /// Represents a control that displays a plot.

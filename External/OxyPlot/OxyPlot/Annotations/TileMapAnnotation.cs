@@ -345,7 +345,7 @@ namespace OxyPlot.Annotations
                    }
                    finally
                    {
-                       mre.Set();                       
+                       mre.Set();
                    }
                },
                request);

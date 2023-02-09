@@ -29,6 +29,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot
 {
+    using OxyPlot.Annotations;
+    using OxyPlot.Axes;
+    using OxyPlot.Reporting;
+    using OxyPlot.Series;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -37,11 +41,6 @@ namespace OxyPlot
     using System.IO;
     using System.Linq;
     using System.Reflection;
-
-    using OxyPlot.Annotations;
-    using OxyPlot.Axes;
-    using OxyPlot.Reporting;
-    using OxyPlot.Series;
 
     /// <summary>
     /// Specifies the coordinate system type.

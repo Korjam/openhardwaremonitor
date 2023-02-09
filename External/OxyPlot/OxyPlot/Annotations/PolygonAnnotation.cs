@@ -119,13 +119,13 @@ namespace OxyPlot.Annotations
             const double MinimumSegmentLength = 4;
 
             rc.DrawClippedPolygon(
-                this.screenPoints, 
-                clipping, 
-                MinimumSegmentLength * MinimumSegmentLength, 
-                this.GetSelectableFillColor(this.Fill), 
-                this.GetSelectableColor(this.Color), 
-                this.StrokeThickness, 
-                this.LineStyle, 
+                this.screenPoints,
+                clipping,
+                MinimumSegmentLength * MinimumSegmentLength,
+                this.GetSelectableFillColor(this.Fill),
+                this.GetSelectableColor(this.Color),
+                this.StrokeThickness,
+                this.LineStyle,
                 this.LineJoin);
 
             if (!string.IsNullOrEmpty(this.Text))
@@ -133,15 +133,15 @@ namespace OxyPlot.Annotations
                 var textPosition = ScreenPointHelper.GetCentroid(this.screenPoints);
 
                 rc.DrawClippedText(
-                    clipping, 
-                    textPosition, 
-                    this.Text, 
-                    this.ActualTextColor, 
-                    this.ActualFont, 
-                    this.ActualFontSize, 
-                    this.ActualFontWeight, 
-                    0, 
-                    HorizontalAlignment.Center, 
+                    clipping,
+                    textPosition,
+                    this.Text,
+                    this.ActualTextColor,
+                    this.ActualFont,
+                    this.ActualFontSize,
+                    this.ActualFontWeight,
+                    0,
+                    HorizontalAlignment.Center,
                     VerticalAlignment.Middle);
             }
         }

@@ -72,9 +72,9 @@ namespace OxyPlot.Annotations
         /// The vertical alignment.
         /// </param>
         public ImageAnnotation(
-            OxyImage image, 
-            ScreenPoint position, 
-            HorizontalAlignment horizontalAlignment = OxyPlot.HorizontalAlignment.Center, 
+            OxyImage image,
+            ScreenPoint position,
+            HorizontalAlignment horizontalAlignment = OxyPlot.HorizontalAlignment.Center,
             VerticalAlignment verticalAlignment = OxyPlot.VerticalAlignment.Middle)
             : this()
         {
@@ -101,9 +101,9 @@ namespace OxyPlot.Annotations
         /// The vertical alignment.
         /// </param>
         public ImageAnnotation(
-            OxyImage image, 
-            IDataPoint position, 
-            HorizontalAlignment horizontalAlignment = OxyPlot.HorizontalAlignment.Center, 
+            OxyImage image,
+            IDataPoint position,
+            HorizontalAlignment horizontalAlignment = OxyPlot.HorizontalAlignment.Center,
             VerticalAlignment verticalAlignment = OxyPlot.VerticalAlignment.Middle)
             : this()
         {
@@ -133,10 +133,10 @@ namespace OxyPlot.Annotations
         /// The vertical alignment.
         /// </param>
         public ImageAnnotation(
-            OxyImage image, 
-            double relativeX, 
-            double relativeY, 
-            HorizontalAlignment horizontalAlignment = OxyPlot.HorizontalAlignment.Center, 
+            OxyImage image,
+            double relativeX,
+            double relativeY,
+            HorizontalAlignment horizontalAlignment = OxyPlot.HorizontalAlignment.Center,
             VerticalAlignment verticalAlignment = OxyPlot.VerticalAlignment.Middle)
             : this()
         {

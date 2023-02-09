@@ -11,24 +11,28 @@
 using System;
 using System.Text;
 
-namespace OpenHardwareMonitor.Utilities {
+namespace OpenHardwareMonitor.Utilities
+{
 
-  public class HttpUtility {
-    public static string UrlEncode(string s) {
- 
-      int maxLength = 32765;
-      var sb = new StringBuilder();
-      int imax = s.Length / maxLength;
+    public class HttpUtility
+    {
+        public static string UrlEncode(string s)
+        {
 
-      for (int i = 0; i <= imax; i++) {
-        sb.Append(
-          Uri.EscapeDataString(i < imax
-          ? s.Substring(maxLength * i, maxLength)
-          : s.Substring(maxLength * i)));
-      }
+            int maxLength = 32765;
+            var sb = new StringBuilder();
+            int imax = s.Length / maxLength;
 
-      return sb.ToString();
+            for (int i = 0; i <= imax; i++)
+            {
+                sb.Append(
+                  Uri.EscapeDataString(i < imax
+                  ? s.Substring(maxLength * i, maxLength)
+                  : s.Substring(maxLength * i)));
+            }
+
+            return sb.ToString();
+        }
+
     }
-
-  }
 }

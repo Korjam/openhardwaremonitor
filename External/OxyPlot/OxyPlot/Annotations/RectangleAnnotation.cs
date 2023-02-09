@@ -136,15 +136,15 @@ namespace OxyPlot.Annotations
             {
                 var textPosition = this.screenRectangle.Center;
                 rc.DrawClippedText(
-                    clipping, 
-                    textPosition, 
-                    this.Text, 
-                    this.ActualTextColor, 
-                    this.ActualFont, 
-                    this.ActualFontSize, 
-                    this.ActualFontWeight, 
-                    this.TextRotation, 
-                    HorizontalAlignment.Center, 
+                    clipping,
+                    textPosition,
+                    this.Text,
+                    this.ActualTextColor,
+                    this.ActualFont,
+                    this.ActualFontSize,
+                    this.ActualFontWeight,
+                    this.TextRotation,
+                    HorizontalAlignment.Center,
                     VerticalAlignment.Middle);
             }
         }

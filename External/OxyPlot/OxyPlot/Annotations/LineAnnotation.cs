@@ -29,11 +29,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot.Annotations
 {
+    using OxyPlot.Axes;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using OxyPlot.Axes;
 
     /// <summary>
     /// Specifes the orientation of the annotation text

@@ -29,9 +29,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot
 {
-    using System.Collections.Generic;
-
     using OxyPlot.Axes;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides an abstract base class for axis renderers.

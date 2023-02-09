@@ -29,10 +29,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot.Series
 {
+    using OxyPlot.Axes;
     using System;
     using System.Collections.Generic;
-
-    using OxyPlot.Axes;
 
     /// <summary>
     /// Represents a series for high-low plots.

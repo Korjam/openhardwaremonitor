@@ -29,10 +29,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot.Annotations
 {
+    using OxyPlot.Axes;
     using System;
     using System.Globalization;
-
-    using OxyPlot.Axes;
 
     /// <summary>
     /// Provides an abstract base class for annotations.

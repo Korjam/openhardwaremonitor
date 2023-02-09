@@ -25,11 +25,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot
 {
+    using OxyPlot.Axes;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-
-    using OxyPlot.Axes;
 
     /// <summary>
     /// Preovides functionality to render horizontal and vertical axes.
@@ -131,10 +130,10 @@ namespace OxyPlot
         /// The <see cref="ScreenPoint"/>.
         /// </returns>
         protected virtual ScreenPoint GetAxisTitlePositionAndAlignment(
-            Axis axis, 
-            double titlePosition, 
-            ref double angle, 
-            ref HorizontalAlignment halign, 
+            Axis axis,
+            double titlePosition,
+            ref double angle,
+            ref HorizontalAlignment halign,
             ref VerticalAlignment valign)
         {
             double middle = axis.IsHorizontal()
@@ -188,10 +187,10 @@ namespace OxyPlot
         /// The rotated vertical alignment.
         /// </param>
         protected virtual void GetRotatedAlignments(
-            double angle, 
-            HorizontalAlignment defaultHorizontalAlignment, 
-            VerticalAlignment defaultVerticalAlignment, 
-            out HorizontalAlignment ha, 
+            double angle,
+            HorizontalAlignment defaultHorizontalAlignment,
+            VerticalAlignment defaultVerticalAlignment,
+            out HorizontalAlignment ha,
             out VerticalAlignment va)
         {
             ha = defaultHorizontalAlignment;
@@ -300,15 +299,15 @@ namespace OxyPlot
 
             this.rc.SetToolTip(axis.ToolTip);
             this.rc.DrawMathText(
-                lpt, 
-                axis.ActualTitle, 
-                axis.ActualTitleColor, 
-                axis.ActualTitleFont, 
-                axis.ActualTitleFontSize, 
-                axis.ActualTitleFontWeight, 
-                angle, 
-                halign, 
-                valign, 
+                lpt,
+                axis.ActualTitle,
+                axis.ActualTitleColor,
+                axis.ActualTitleFont,
+                axis.ActualTitleFontSize,
+                axis.ActualTitleFontWeight,
+                angle,
+                halign,
+                valign,
                 maxSize);
             this.rc.SetToolTip(null);
         }
@@ -451,14 +450,14 @@ namespace OxyPlot
 
                 string text = axis.FormatValue(value);
                 this.rc.DrawMathText(
-                    pt, 
-                    text, 
-                    axis.ActualTextColor, 
-                    axis.ActualFont, 
-                    axis.ActualFontSize, 
-                    axis.ActualFontWeight, 
-                    axis.Angle, 
-                    ha, 
+                    pt,
+                    text,
+                    axis.ActualTextColor,
+                    axis.ActualFont,
+                    axis.ActualFontSize,
+                    axis.ActualFontWeight,
+                    axis.Angle,
+                    ha,
                     va);
             }
 
@@ -502,19 +501,19 @@ namespace OxyPlot
             if (isHorizontal)
             {
                 this.rc.DrawLine(
-                    axis.Transform(actualMinimum), 
-                    axisPosition, 
-                    axis.Transform(actualMaximum), 
-                    axisPosition, 
+                    axis.Transform(actualMinimum),
+                    axisPosition,
+                    axis.Transform(actualMaximum),
+                    axisPosition,
                     this.AxislinePen);
             }
             else
             {
                 this.rc.DrawLine(
-                    axisPosition, 
-                    axis.Transform(actualMinimum), 
-                    axisPosition, 
-                    axis.Transform(actualMaximum), 
+                    axisPosition,
+                    axis.Transform(actualMinimum),
+                    axisPosition,
+                    axis.Transform(actualMaximum),
                     this.AxislinePen);
             }
 

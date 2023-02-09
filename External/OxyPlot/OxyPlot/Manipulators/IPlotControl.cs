@@ -29,9 +29,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace OxyPlot
 {
-    using OxyPlot.Annotations;
     using OxyPlot.Axes;
-    using OxyPlot.Series;
 
     /// <summary>
     /// Defines functionality in the Plot controls.

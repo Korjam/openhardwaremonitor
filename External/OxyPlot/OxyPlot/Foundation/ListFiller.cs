@@ -140,6 +140,6 @@ namespace OxyPlot
 
                 target.Add(item);
             }
-        }       
+        }
     }
 }

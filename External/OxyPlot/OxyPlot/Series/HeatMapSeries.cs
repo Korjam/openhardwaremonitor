@@ -30,11 +30,10 @@
 
 namespace OxyPlot.Series
 {
+    using OxyPlot.Axes;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using OxyPlot.Axes;
 
     /// <summary>
     /// The heat map series.
@@ -179,7 +178,7 @@ namespace OxyPlot.Series
         protected internal override void UpdateMaxMin()
         {
             base.UpdateMaxMin();
-            
+
             this.MinX = Math.Min(this.X0, this.X1);
             this.MaxX = Math.Max(this.X0, this.X1);
 
@@ -194,7 +193,7 @@ namespace OxyPlot.Series
 
             this.YAxis.Include(this.MinY);
             this.YAxis.Include(this.MaxY);
-            
+
             this.ColorAxis.Include(this.MinValue);
             this.ColorAxis.Include(this.MaxValue);
         }
@@ -231,7 +230,7 @@ namespace OxyPlot.Series
                     buffer[j, i] = this.ColorAxis.GetColor(this.Data[i, j]);
                 }
             }
-            
+
             this.image = OxyImage.PngFromArgb(buffer);
         }
     }

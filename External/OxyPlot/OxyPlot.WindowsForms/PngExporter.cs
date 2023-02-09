@@ -32,8 +32,6 @@ namespace OxyPlot.WindowsForms
     using System.Drawing;
     using System.Drawing.Imaging;
 
-    using OxyPlot.WindowsForms;
-
     /// <summary>
     /// The png exporter.
     /// </summary>

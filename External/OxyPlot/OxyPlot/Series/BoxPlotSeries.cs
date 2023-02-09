@@ -30,10 +30,9 @@
 
 namespace OxyPlot.Series
 {
+    using OxyPlot.Axes;
     using System.Collections.Generic;
     using System.Linq;
-
-    using OxyPlot.Axes;
 
     /// <summary>
     /// Represents a series for box plots.
