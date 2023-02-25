@@ -270,20 +270,20 @@ namespace OpenHardwareMonitor.GUI
             }
         }
 
-        public ContextMenu ContextMenu
+        public ContextMenuStrip ContextMenu
         {
             get
             {
-                if (genericNotifyIcon != null)
-                    return genericNotifyIcon.ContextMenu;
-                else
+                //if (genericNotifyIcon != null)
+                //    return genericNotifyIcon.ContextMenu;
+                //else
                     return windowsNotifyIcon.ContextMenu;
             }
             set
             {
-                if (genericNotifyIcon != null)
-                    genericNotifyIcon.ContextMenu = value;
-                else
+                //if (genericNotifyIcon != null)
+                //    genericNotifyIcon.ContextMenu = value;
+                //else
                     windowsNotifyIcon.ContextMenu = value;
             }
         }
@@ -413,7 +413,7 @@ namespace OpenHardwareMonitor.GUI
             public string BalloonTipText { get; set; }
             public ToolTipIcon BalloonTipIcon { get; set; }
             public string BalloonTipTitle { get; set; }
-            public ContextMenu ContextMenu { get; set; }
+            public ContextMenuStrip ContextMenu { get; set; }
             public ContextMenuStrip ContextMenuStrip { get; set; }
             public object Tag { get; set; }
 

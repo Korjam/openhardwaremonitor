@@ -117,7 +117,7 @@ namespace OpenHardwareMonitor.GUI
             }
         }
 
-        public ContextMenu ContextMenu
+        public ContextMenuStrip ContextMenu
         {
             get
             {
