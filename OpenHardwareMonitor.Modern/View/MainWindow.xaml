@@ -1,0 +1,49 @@
+<Window x:Class="OpenHardwareMonitor.Modern.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OpenHardwareMonitor.Modern.View"
+        xmlns:viewmodel="clr-namespace:OpenHardwareMonitor.Modern.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+  
+  <TreeView ItemsSource="{Binding Computer.Components}" Grid.IsSharedSizeScope="True">
+
+    <TreeView.Resources>
+
+      <HierarchicalDataTemplate DataType="{x:Type viewmodel:ComponentViewModel}"
+                                ItemsSource="{Binding Components}">
+        <Label Content="{Binding Name}" />
+      </HierarchicalDataTemplate>
+
+      <HierarchicalDataTemplate DataType="{x:Type viewmodel:SensorViewModel}"
+                                ItemsSource="{Binding Components}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Name" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Value" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Min" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="Auto" SharedSizeGroup="Max" />
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0" Content="{Binding Name}" />
+          <Label Grid.Column="2" Content="{Binding Value}" />
+          <Label Grid.Column="4" Content="{Binding Min}" />
+          <Label Grid.Column="6" Content="{Binding Max}" />
+        </Grid>
+      </HierarchicalDataTemplate>
+
+      <HierarchicalDataTemplate DataType="{x:Type viewmodel:HardwareComponentViewModel}"
+                                ItemsSource="{Binding Components}">
+        <Label Content="{Binding Name}" />
+      </HierarchicalDataTemplate>
+
+    </TreeView.Resources>
+
+  </TreeView>
+  
+</Window>
