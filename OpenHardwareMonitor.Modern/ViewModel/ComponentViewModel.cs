@@ -1,4 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using OpenHardwareMonitor.Hardware;
+using OpenHardwareMonitor.Modern.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

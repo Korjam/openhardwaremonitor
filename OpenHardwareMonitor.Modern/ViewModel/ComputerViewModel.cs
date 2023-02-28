@@ -1,4 +1,5 @@
 ﻿using OpenHardwareMonitor.Hardware;
+using OpenHardwareMonitor.Modern.Abstractions;
 using System;
 using System.Linq;
 
@@ -6,11 +7,15 @@ namespace OpenHardwareMonitor.Modern.ViewModel;
 
 public class ComputerViewModel : ComponentViewModel
 {
-    public ComputerViewModel(IComputer computer) : base(Environment.MachineName)
+    private readonly IMeasurePublisher<ISensor> _receiver;
+
+    public ComputerViewModel(IComputer computer, IMeasurePublisher<ISensor> receiver) : base(Environment.MachineName)
     {
+        _receiver = receiver;
+
         foreach (var item in computer.Hardware)
         {
-            Components.Add(new HardwareComponentViewModel(item));
+            Components.Add(new HardwareComponentViewModel(item, receiver));
         }
 
         computer.HardwareAdded += Computer_HardwareAdded;
@@ -19,7 +24,7 @@ public class ComputerViewModel : ComponentViewModel
 
     private void Computer_HardwareAdded(IHardware hardware)
     {
-        Components.Add(new HardwareComponentViewModel(hardware));
+        Components.Add(new HardwareComponentViewModel(hardware, _receiver));
     }
 
     private void Computer_HardwareRemoved(IHardware hardware)
