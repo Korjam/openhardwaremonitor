@@ -21,7 +21,7 @@ public partial class App : Application
         _host = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
-                services.AddTransient<ISettings>(x => new Settings(@"C:\Temp\hardware-data.json"));
+                services.AddSingleton<ISettings>(x => new Settings(@"C:\Temp\hardware-data.json"));
                 services.AddTransient<Computer>();
 
                 services.AddScoped<MainViewModel>();

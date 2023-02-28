@@ -21,11 +21,15 @@ public partial class SensorViewModel : ComponentViewModel
 
     internal readonly ISensor _sensor;
     private readonly IMeasurePublisher<ISensor> _receiver;
+    private readonly ISettings _settings;
 
-    public SensorViewModel(ISensor sensor, IMeasurePublisher<ISensor> receiver) : base(sensor.Name)
+    public SensorViewModel(ISensor sensor, IMeasurePublisher<ISensor> receiver, ISettings settings) : base(sensor.Name)
     {
         _sensor = sensor;
         _receiver = receiver;
+        _settings = settings;
+
+        Publish = bool.Parse(settings.GetValue($"{_sensor.Identifier}/plot", "false"));
     }
 
     public override void Update(TimeSpan timestamp)
@@ -41,7 +45,7 @@ public partial class SensorViewModel : ComponentViewModel
         {
             Max = (float)_sensor.Max;
         }
-        
+
         if (Publish)
         {
             _receiver.Publish(_sensor, timestamp);
@@ -52,6 +56,8 @@ public partial class SensorViewModel : ComponentViewModel
 
     partial void OnPublishChanged(bool value)
     {
+        _settings.SetValue($"{_sensor.Identifier}/plot", value.ToString());
+
         if (value)
         {
             _receiver.Register(_sensor);

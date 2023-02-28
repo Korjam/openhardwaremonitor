@@ -37,8 +37,10 @@ public class Settings : ISettings
 
     public void Remove(string name)
     {
-        _settings.Remove(name);
-        Save();
+        if (_settings.Remove(name))
+        {
+            Save();
+        }
     }
 
     public void SetValue(string name, string value)
@@ -49,6 +51,9 @@ public class Settings : ISettings
 
     private void Save()
     {
-        File.WriteAllText(_filepath, JsonSerializer.Serialize(_settings));
+        File.WriteAllText(_filepath, JsonSerializer.Serialize(_settings, new JsonSerializerOptions
+        {
+            WriteIndented = true,
+        }));
     }
 }

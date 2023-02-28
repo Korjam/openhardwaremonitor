@@ -15,7 +15,7 @@ namespace OpenHardwareMonitor.Modern.ViewModel;
 
 public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
 {
-    public MainViewModel(Computer computer)
+    public MainViewModel(Computer computer, ISettings settings)
     {
         computer.CPUEnabled = true;
         computer.FanControllerEnabled = true;
@@ -26,7 +26,7 @@ public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
 
         PlotModel = CreateModel();
 
-        Computer = new ComputerViewModel(computer, this);
+        Computer = new ComputerViewModel(computer, this, settings);
 
         computer.Open();
         Update();
@@ -164,8 +164,6 @@ public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
             AxislineStyle = LineStyle.Solid,
             MajorGridlineStyle = LineStyle.Solid,
             MinorGridlineStyle = LineStyle.Solid,
-            MinimumRange = 60 * 30,
-            MaximumRange = 60 * 30,
         });
         model.Annotations.Add(new DelegateAnnotation(render =>
         {

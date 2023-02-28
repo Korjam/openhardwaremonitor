@@ -9,15 +9,17 @@ public class HardwareComponentViewModel : ComponentViewModel
 {
     internal readonly IHardware _hardware;
     private readonly IMeasurePublisher<ISensor> _receiver;
+    private readonly ISettings _settings;
 
-    public HardwareComponentViewModel(IHardware hardware, IMeasurePublisher<ISensor> receiver) : base(hardware.Name)
+    public HardwareComponentViewModel(IHardware hardware, IMeasurePublisher<ISensor> receiver, ISettings settings) : base(hardware.Name)
     {
         _hardware = hardware;
         _receiver = receiver;
+        _settings = settings;
 
         foreach (var item in hardware.SubHardware)
         {
-            Components.Add(new HardwareComponentViewModel(item, receiver));
+            Components.Add(new HardwareComponentViewModel(item, receiver, settings));
         }
 
         foreach (var item in hardware.Sensors.GroupBy(x => x.SensorType))
@@ -26,7 +28,7 @@ public class HardwareComponentViewModel : ComponentViewModel
 
             foreach (var sensor in item)
             {
-                group.Components.Add(new SensorViewModel(sensor, receiver));
+                group.Components.Add(new SensorViewModel(sensor, receiver, settings));
             }
         }
 
@@ -37,7 +39,7 @@ public class HardwareComponentViewModel : ComponentViewModel
     private void Hardware_SensorAdded(ISensor sensor)
     {
         var group = FindGroup(sensor.SensorType);
-        group.Components.Add(new SensorViewModel(sensor, _receiver));
+        group.Components.Add(new SensorViewModel(sensor, _receiver, _settings));
     }
 
     private void Hardware_SensorRemoved(ISensor sensor)
