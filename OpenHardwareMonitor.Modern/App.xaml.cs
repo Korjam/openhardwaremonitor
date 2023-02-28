@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OpenHardwareMonitor.Hardware;
+using OpenHardwareMonitor.Modern.Model;
 using OpenHardwareMonitor.Modern.Services;
 using OpenHardwareMonitor.Modern.View;
 using OpenHardwareMonitor.Modern.ViewModel;
@@ -19,6 +21,9 @@ public partial class App : Application
         _host = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
+                services.AddTransient<ISettings>(x => new Settings(@"C:\Temp\hardware-data.json"));
+                services.AddTransient<Computer>();
+
                 services.AddScoped<MainViewModel>();
                 services.AddScoped<MainWindow>();
 

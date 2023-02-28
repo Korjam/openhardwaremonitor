@@ -15,19 +15,16 @@ namespace OpenHardwareMonitor.Modern.ViewModel;
 
 public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
 {
-    public MainViewModel()
+    public MainViewModel(Computer computer)
     {
-        PlotModel = CreateModel();
+        computer.CPUEnabled = true;
+        computer.FanControllerEnabled = true;
+        computer.GPUEnabled = true;
+        computer.HDDEnabled = true;
+        computer.MainboardEnabled = true;
+        computer.RAMEnabled = true;
 
-        var computer = new Computer()
-        {
-            CPUEnabled = true,
-            FanControllerEnabled = true,
-            GPUEnabled = true,
-            HDDEnabled = true,
-            MainboardEnabled = true,
-            RAMEnabled = true,
-        };
+        PlotModel = CreateModel();
 
         Computer = new ComputerViewModel(computer, this);
 

@@ -17,7 +17,7 @@ using System.Security.Permissions;
 namespace OpenHardwareMonitor.Hardware
 {
 
-    public class Computer : IComputer
+    public class Computer : IComputer, IDisposable
     {
 
         private readonly List<IGroup> groups = new List<IGroup>();
@@ -452,6 +452,8 @@ namespace OpenHardwareMonitor.Hardware
                 foreach (IHardware hardware in group.Hardware)
                     hardware.Accept(visitor);
         }
+
+        public void Dispose() => Close();
 
         private class Settings : ISettings
         {
