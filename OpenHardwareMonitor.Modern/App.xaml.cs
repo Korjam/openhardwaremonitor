@@ -1,4 +1,7 @@
-﻿using OpenHardwareMonitor.Modern.View;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using OpenHardwareMonitor.Modern.Services;
+using OpenHardwareMonitor.Modern.View;
 using OpenHardwareMonitor.Modern.ViewModel;
 using System.Windows;
 
@@ -9,11 +12,29 @@ namespace OpenHardwareMonitor.Modern;
 /// </summary>
 public partial class App : Application
 {
+    private IHost _host;
+
+    public App()
+    {
+        _host = Host.CreateDefaultBuilder()
+            .ConfigureServices((context, services) =>
+            {
+                services.AddScoped<MainViewModel>();
+                services.AddScoped<MainWindow>();
+
+                services.AddHostedService<ApplicationLifeService>();
+            })
+            .Build();
+    }
+
     private void Application_Startup(object sender, StartupEventArgs e)
     {
-        new MainWindow()
-        {
-            DataContext = new MainViewModel()
-        }.Show();
+        _host.StartAsync().GetAwaiter().GetResult();
+    }
+
+    private void Application_Exit(object sender, ExitEventArgs e)
+    {
+        _host.StopAsync().GetAwaiter().GetResult();
+        _host.Dispose();
     }
 }
