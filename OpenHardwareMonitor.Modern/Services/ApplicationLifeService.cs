@@ -4,7 +4,7 @@ using OpenHardwareMonitor.Modern.View.Pages;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui.Contracts;
 
 namespace OpenHardwareMonitor.Modern.Services;
 

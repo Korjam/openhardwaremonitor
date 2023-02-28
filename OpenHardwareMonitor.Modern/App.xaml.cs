@@ -7,8 +7,8 @@ using OpenHardwareMonitor.Modern.View;
 using OpenHardwareMonitor.Modern.View.Pages;
 using OpenHardwareMonitor.Modern.ViewModel;
 using System.Windows;
-using Wpf.Ui.Mvvm.Contracts;
-using Wpf.Ui.Mvvm.Services;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Services;
 
 namespace OpenHardwareMonitor.Modern;
 

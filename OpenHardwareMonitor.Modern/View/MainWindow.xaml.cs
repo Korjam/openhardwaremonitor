@@ -1,9 +1,9 @@
+using Microsoft.Extensions.DependencyInjection;
 using OpenHardwareMonitor.Modern.ViewModel;
 using System;
-using System.Windows.Controls;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls.Interfaces;
-using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls.Navigation;
 
 namespace OpenHardwareMonitor.Modern.View;
 
@@ -17,7 +17,9 @@ public partial class MainWindow : INavigationWindow
     public MainWindow(MainViewModel mainViewModel,
         INavigationService navigationService,
         IPageService pageService,
-        IThemeService themeService)
+        IThemeService themeService,
+        ISnackbarService snackbarService,
+        IDialogService contentDialogService)
     {
         Watcher.Watch(this);
 
@@ -30,36 +32,36 @@ public partial class MainWindow : INavigationWindow
         // We define a page provider for navigation
         SetPageService(pageService);
 
-        // If you want to use INavigationService instead of INavigationWindow you can define its navigation here.
-        navigationService.SetNavigationControl(RootNavigation);
+        snackbarService.SetSnackbarControl(Snackbar);
+        navigationService.SetNavigationControl(NavigationView);
+        contentDialogService.SetDialogControl(ContentDialog);
 
-        // Allows you to use the Snackbar control defined in this window in other pages or windows
-        //snackbarService.SetSnackbarControl(RootSnackbar);
-
-        // Allows you to use the Dialog control defined in this window in other pages or windows
-        //dialogService.SetDialogControl(RootDialog);
+        //NavigationView.SetServiceProvider(serviceProvider);
+        //NavigationView.Loaded += (_, _) => NavigationView.Navigate(typeof(DashboardPage));
     }
 
-    public Frame GetFrame()
-        => RootFrame;
+    public INavigationView GetNavigation() =>
+        NavigationView;
 
-    public INavigation GetNavigation()
-        => RootNavigation;
+    public bool Navigate(Type pageType) =>
+        NavigationView.Navigate(pageType);
 
-    public bool Navigate(Type pageType)
-        => RootNavigation.Navigate(pageType);
+    public void SetPageService(IPageService pageService) =>
+        NavigationView.SetPageService(pageService);
 
-    public void SetPageService(IPageService pageService)
-        => RootNavigation.PageService = pageService;
+    public void ShowWindow() =>
+        Show();
 
-    public void ShowWindow()
-        => Show();
-
-    public void CloseWindow()
-        => Close();
+    public void CloseWindow() =>
+        Close();
 
     private void NavigationButtonTheme_OnClick(object sender, System.Windows.RoutedEventArgs e)
     {
         _themeService.SetTheme(_themeService.GetTheme() == ThemeType.Dark ? ThemeType.Light : ThemeType.Dark);
+    }
+
+    public void SetServiceProvider(IServiceProvider serviceProvider)
+    {
+        throw new NotImplementedException();
     }
 }
