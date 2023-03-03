@@ -247,7 +247,7 @@ namespace OpenHardwareMonitor.Hardware
             maxValue = null;
         }
 
-        public IEnumerable<SensorValue> Values
+        public IReadOnlyCollection<SensorValue> Values
         {
             get { return values; }
         }

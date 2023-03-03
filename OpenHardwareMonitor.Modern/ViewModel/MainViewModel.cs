@@ -56,14 +56,28 @@ public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
         var name = GetName(sensor);
         var series = PlotModel.Series
             .OfType<LineSeries>()
-            .FirstOrDefault(x => x.Title == name);
+            .First(x => x.Title == name);
 
-        var items = series.ItemsSource as IList<Item>;
-        items.Add(new Item
+        var items = (IList<Item>)series.ItemsSource;
+
+        if (items.Count != sensor.Values.Count)
         {
-            X = timestamp,
-            Y = sensor.Value ?? 0
-        });
+            foreach (var item in sensor.Values.Skip(items.Count))
+            {
+                items.Add(Convert(item));
+            }
+        }
+        else if (items.Any())
+        {
+            var lastItem = items.Last();
+            var lastValue = Convert(sensor.Values.Last());
+
+            if (lastItem.X != lastValue.X ||
+                lastItem.Y != lastValue.Y)
+            {
+                items[items.Count - 1] = lastValue;
+            }
+        }
     }
 
     public void Register(ISensor sensor)
@@ -95,11 +109,7 @@ public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
             {
                 Title = name,
                 StrokeThickness = 1,
-                ItemsSource = new ObservableCollection<Item>(sensor.Values.Select(x => new Item
-                {
-                    X = x.Time.ToLocalTime() - Process.GetCurrentProcess().StartTime,
-                    Y = x.Value
-                })),
+                ItemsSource = new ObservableCollection<Item>(sensor.Values.Select(Convert)),
                 YAxisKey = sensor.SensorType.ToString(),
                 DataFieldX = "X",
                 DataFieldY = "Y"
@@ -198,6 +208,13 @@ public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
 
         return model;
     }
+
+    private static Item Convert(SensorValue x) =>
+        new()
+        {
+            X = x.Time.ToLocalTime() - Process.GetCurrentProcess().StartTime,
+            Y = x.Value
+        };
 }
 
 public class Item

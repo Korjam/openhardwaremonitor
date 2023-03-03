@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace OpenHardwareMonitor.Collections
 {
-    public class RingCollection<T> : IEnumerable<T>
+    public class RingCollection<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {
 
         private T[] array;
@@ -175,6 +175,8 @@ namespace OpenHardwareMonitor.Collections
                 array[tail == 0 ? array.Length - 1 : tail - 1] = value;
             }
         }
+
+        public bool IsReadOnly => ((ICollection<T>)array).IsReadOnly;
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
