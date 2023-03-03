@@ -1,3 +1,5 @@
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using OpenHardwareMonitor.Modern.ViewModel;
 using System;
 using System.Windows.Controls;
@@ -60,6 +62,25 @@ public partial class MainWindow : INavigationWindow
 
     private void NavigationButtonTheme_OnClick(object sender, System.Windows.RoutedEventArgs e)
     {
-        _themeService.SetTheme(_themeService.GetTheme() == ThemeType.Dark ? ThemeType.Light : ThemeType.Dark);
+        var theme = _themeService.GetTheme() == ThemeType.Dark ? ThemeType.Light : ThemeType.Dark;
+        LiveCharts.Configure(config =>
+        {
+            switch (theme)
+            {
+                case ThemeType.Unknown:
+                    break;
+                case ThemeType.Dark:
+                    config.AddDarkTheme();
+                    break;
+                case ThemeType.Light:
+                    config.AddLightTheme();
+                    break;
+                case ThemeType.HighContrast:
+                    break;
+                default:
+                    break;
+            }
+        });
+        _themeService.SetTheme(theme);
     }
 }

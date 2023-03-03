@@ -1,9 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView;
 using OpenHardwareMonitor.Hardware;
 using OpenHardwareMonitor.Modern.Abstractions;
-using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +17,24 @@ public class DevicesViewModel : ObservableObject, IMeasurePublisher<ISensor>
 {
     private readonly Computer _computer;
     private readonly DispatcherTimer _dispatcher;
+    private readonly Axis _xAxis = new()
+    {
+        Labeler = value => TimeSpan.FromTicks((long)value).ToString(@"hh\:mm"),
+
+        // when using a date time type, let the library know your unit 
+        //UnitWidth = TimeSpan.FromMilliseconds(1).Ticks, 
+
+        // if the difference between our points is in hours then we would:
+        // UnitWidth = TimeSpan.FromHours(1).Ticks,
+
+        // since all the months and years have a different number of days
+        // we can use the average, it would not cause any visible error in the user interface
+        // Months: TimeSpan.FromDays(30.4375).Ticks
+        // Years: TimeSpan.FromDays(365.25).Ticks
+
+        // The MinStep property forces the separator to be greater than 1 ms.
+        //MinStep = TimeSpan.FromMilliseconds(1).Ticks,
+    };
 
     public DevicesViewModel(Computer computer, ISettings settings)
     {
@@ -29,8 +46,6 @@ public class DevicesViewModel : ObservableObject, IMeasurePublisher<ISensor>
         computer.MainboardEnabled = true;
         computer.RAMEnabled = true;
 
-        PlotModel = CreateModel();
-
         Computer = new ComputerViewModel(computer, this, settings);
 
         _dispatcher = new DispatcherTimer()
@@ -41,8 +56,7 @@ public class DevicesViewModel : ObservableObject, IMeasurePublisher<ISensor>
     }
 
     public ComputerViewModel Computer { get; }
-
-    public PlotModel PlotModel { get; set; }
+    public ObservableCollection<PlotViewModel> Plots { get; set; } = new();
 
     public async Task OpenAsync()
     {
@@ -53,12 +67,9 @@ public class DevicesViewModel : ObservableObject, IMeasurePublisher<ISensor>
 
     public void Publish(ISensor sensor, TimeSpan timestamp)
     {
-        var name = GetName(sensor);
-        var series = PlotModel.Series
-            .OfType<LineSeries>()
-            .First(x => x.Title == name);
-
-        var items = (IList<Item>)series.ItemsSource;
+        var plot = Plots.First(x => x.Title == sensor.SensorType.ToString());
+        var series = plot.Series.First(s => s.Name == GetName(sensor));
+        var items = (IList<TimeSpanPoint>)series.Values;
 
         if (items.Count != sensor.Values.Count)
         {
@@ -72,8 +83,8 @@ public class DevicesViewModel : ObservableObject, IMeasurePublisher<ISensor>
             var lastItem = items.Last();
             var lastValue = Convert(sensor.Values.Last());
 
-            if (lastItem.X != lastValue.X ||
-                lastItem.Y != lastValue.Y)
+            if (lastItem.TimeSpan != lastValue.TimeSpan ||
+                lastItem.Value != lastValue.Value)
             {
                 items[items.Count - 1] = lastValue;
             }
@@ -82,143 +93,50 @@ public class DevicesViewModel : ObservableObject, IMeasurePublisher<ISensor>
 
     public void Register(ISensor sensor)
     {
-        if (!PlotModel.Axes.Any(x => x.Title == sensor.SensorType.ToString()))
+        var plot = Plots.FirstOrDefault(x => x.Title == sensor.SensorType.ToString());
+        if (plot is null)
         {
-            PlotModel.Axes.Add(new LinearAxis
-            {
-                Key = sensor.SensorType.ToString(),
-                Title = sensor.SensorType.ToString(),
-                Position = AxisPosition.Left,
-                ExtraGridlineStyle = LineStyle.Solid,
-                AxislineStyle = LineStyle.Solid,
-                MajorGridlineStyle = LineStyle.Solid,
-                MinorGridlineStyle = LineStyle.Solid
-            });
-
-            CalculatePositions();
+            plot = new PlotViewModel(_xAxis, sensor.SensorType.ToString());
+            Plots.Add(plot);
         }
 
-        var name = GetName(sensor);
-        var series = PlotModel.Series
-            .OfType<LineSeries>()
-            .FirstOrDefault(x => x.Title == name);
-
-        if (series is null)
+        plot.Series.Add(new LineSeries<TimeSpanPoint>
         {
-            series = new LineSeries
-            {
-                Title = name,
-                StrokeThickness = 1,
-                ItemsSource = new ObservableCollection<Item>(sensor.Values.Select(Convert)),
-                YAxisKey = sensor.SensorType.ToString(),
-                DataFieldX = "X",
-                DataFieldY = "Y"
-            };
-            PlotModel.Series.Add(series);
-        }
+            Name = GetName(sensor),
+            Values = new ObservableCollection<TimeSpanPoint>(sensor.Values.Select(Convert)),
 
-        PlotModel.InvalidatePlot(false);
+            //Stroke = new SolidColorPaint(SKColors.AliceBlue, 3),
+            Fill = null,
+            GeometrySize = 0,
+
+            //LineSmoothness = 0,
+        });
+    }
+
+    private static TimeSpanPoint Convert(SensorValue x)
+    {
+        return new TimeSpanPoint(x.Time.ToLocalTime().TimeOfDay, double.IsNaN(x.Value) ? null : x.Value);
     }
 
     public void Remove(ISensor sensor)
     {
-        var name = GetName(sensor);
-        var series = PlotModel.Series
-            .OfType<LineSeries>()
-            .FirstOrDefault(x => x.Title == name);
+        var plot = Plots.First(x => x.Title == sensor.SensorType.ToString());
 
-        if (series is not null)
+        plot.Series.Remove(plot.Series.First(s => s.Name == GetName(sensor)));
+
+        if (!plot.Series.Any())
         {
-            PlotModel.Series.Remove(series);
-        }
-
-        if (!PlotModel.Series.OfType<LineSeries>().Any(x => x.YAxisKey == sensor.SensorType.ToString()))
-        {
-            var axis = PlotModel.Axes.FirstOrDefault(x => x.Title == sensor.SensorType.ToString());
-
-            if (axis is not null)
-            {
-                PlotModel.Axes.Remove(axis);
-                CalculatePositions();
-            }
-        }
-
-        PlotModel.InvalidatePlot(false);
-    }
-
-    private void CalculatePositions()
-    {
-        var axes = PlotModel.Axes.Where(x => x.Position == AxisPosition.Left)
-            .OrderBy(x => x.Title)
-            .ToList();
-
-        for (int i = 0; i < axes.Count; i++)
-        {
-            var axis = axes[i];
-            axis.StartPosition = (double)i / axes.Count;
-            axis.EndPosition = (double)(i + 1) / axes.Count;
+            Plots.Remove(plot);
         }
     }
 
     private void Update()
     {
         Computer.Update(DateTime.Now - Process.GetCurrentProcess().StartTime);
-        PlotModel.InvalidatePlot(true);
     }
 
     private static string GetName(ISensor sensor)
     {
         return sensor.Hardware.Name + sensor.SensorType + sensor.Name;
     }
-
-    private static PlotModel CreateModel()
-    {
-        var model = new PlotModel();
-        model.Padding = new OxyThickness(8, 0, 0, 8);
-        model.Axes.Add(new TimeSpanAxis
-        {
-            Position = AxisPosition.Bottom,
-            ExtraGridlineStyle = LineStyle.Solid,
-            AxislineStyle = LineStyle.Solid,
-            MajorGridlineStyle = LineStyle.Solid,
-            MinorGridlineStyle = LineStyle.Solid,
-        });
-        model.Annotations.Add(new DelegateAnnotation(render =>
-        {
-            var pen = new OxyPen(OxyColors.Black, 1, LineStyle.Solid);
-            foreach (var axis in model.Axes.Where(x => x.IsVertical()))
-            {
-                double startPosition = model.PlotArea.Left;
-                double endPosition = model.PlotArea.Right;
-
-                double line1Y = axis.Transform(axis.ClipMinimum);
-                double line2Y = axis.Transform(axis.ClipMaximum);
-
-                render.DrawLine(
-                    startPosition, line1Y,
-                    endPosition,   line1Y,
-                    pen, EdgeRenderingMode.Automatic);
-
-                render.DrawLine(
-                    startPosition, line2Y,
-                    endPosition,   line2Y,
-                    pen, EdgeRenderingMode.Automatic);
-            }
-        }));
-
-        return model;
-    }
-
-    private static Item Convert(SensorValue x) =>
-        new()
-        {
-            X = x.Time.ToLocalTime() - Process.GetCurrentProcess().StartTime,
-            Y = x.Value
-        };
-}
-
-public class Item
-{
-    public TimeSpan X { get; set; }
-    public double Y { get; set; }
 }

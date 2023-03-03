@@ -1,3 +1,5 @@
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenHardwareMonitor.Hardware;
@@ -64,6 +66,33 @@ public partial class App : Application
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
+        LiveCharts.Configure(config =>
+            config
+                // registers SkiaSharp as the library backend
+                // REQUIRED unless you build your own
+                .AddSkiaSharp()
+
+                // adds the default supported types
+                // OPTIONAL but highly recommend
+                .AddDefaultMappers()
+
+                // select a theme, default is Light
+                // OPTIONAL
+                .AddDarkTheme()
+                //.AddLightTheme()
+
+                // finally register your own mappers
+                // you can learn more about mappers at:
+                // ToDo add website link...
+                //.HasMap<City>((city, point) =>
+                //{
+                //    point.PrimaryValue = city.Population;
+                //    point.SecondaryValue = point.Context.Index;
+                //})
+                // .HasMap<Foo>( .... )
+                // .HasMap<Bar>( .... )
+            );
+
         _host.StartAsync().GetAwaiter().GetResult();
     }
 
