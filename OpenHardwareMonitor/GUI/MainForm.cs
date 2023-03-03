@@ -186,7 +186,9 @@ namespace OpenHardwareMonitor.GUI
             computer.HardwareAdded += new HardwareEventHandler(HardwareAdded);
             computer.HardwareRemoved += new HardwareEventHandler(HardwareRemoved);
 
-            computer.Open();
+            computer.OpenAsync()
+                .GetAwaiter()
+                .GetResult();
 
             Microsoft.Win32.SystemEvents.PowerModeChanged += PowerModeChanged;
 
@@ -377,13 +379,13 @@ namespace OpenHardwareMonitor.GUI
             };
         }
 
-        private void PowerModeChanged(object sender,
+        private async void PowerModeChanged(object sender,
           Microsoft.Win32.PowerModeChangedEventArgs e)
         {
 
             if (e.Mode == Microsoft.Win32.PowerModes.Resume)
             {
-                computer.Reset();
+                await computer.ResetAsync();
             }
         }
 
@@ -1033,12 +1035,12 @@ namespace OpenHardwareMonitor.GUI
             }
         }
 
-        private void resetClick(object sender, EventArgs e)
+        private async void resetClick(object sender, EventArgs e)
         {
             // disable the fallback MainIcon during reset, otherwise icon visibility
             // might be lost 
             systemTray.IsMainIconEnabled = false;
-            computer.Reset();
+            await computer.ResetAsync();
             // restore the MainIcon setting
             systemTray.IsMainIconEnabled = minimizeToTray.Value;
         }

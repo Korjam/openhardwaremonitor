@@ -1,4 +1,4 @@
-﻿/*
+/*
  
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Security.Permissions;
+using System.Threading.Tasks;
 
 namespace OpenHardwareMonitor.Hardware
 {
@@ -81,7 +82,7 @@ namespace OpenHardwareMonitor.Hardware
         }
 
         [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
-        public void Open()
+        public async Task OpenAsync()
         {
             if (open)
                 return;
@@ -91,45 +92,53 @@ namespace OpenHardwareMonitor.Hardware
             Ring0.Open();
             Opcode.Open();
 
-            AddGroups();
+            await AddGroupsAsync();
 
             open = true;
         }
 
-        private void AddGroups()
+        private async Task AddGroupsAsync()
         {
             if (mainboardEnabled)
-                Add(new Mainboard.MainboardGroup(smbios, settings));
+            {
+                Add(await Task.Run(() => new Mainboard.MainboardGroup(smbios, settings)));
+            }
 
             if (cpuEnabled)
-                Add(new CPU.CPUGroup(settings));
+            {
+                Add(await Task.Run(() => new CPU.CPUGroup(settings)));
+            }
 
             if (ramEnabled)
-                Add(new RAM.RAMGroup(smbios, settings));
+            {
+                Add(await Task.Run(() => new RAM.RAMGroup(smbios, settings)));
+            }
 
             if (gpuEnabled)
             {
-                Add(new ATI.ATIGroup(settings));
-                Add(new Nvidia.NvidiaGroup(settings));
+                Add(await Task.Run(() => new ATI.ATIGroup(settings)));
+                Add(await Task.Run(() => new Nvidia.NvidiaGroup(settings)));
             }
 
             if (fanControllerEnabled)
             {
-                Add(new TBalancer.TBalancerGroup(settings));
-                Add(new Heatmaster.HeatmasterGroup(settings));
+                Add(await Task.Run(() => new TBalancer.TBalancerGroup(settings)));
+                Add(await Task.Run(() => new Heatmaster.HeatmasterGroup(settings)));
             }
 
             if (hddEnabled)
-                Add(new HDD.HarddriveGroup(settings));
+            {
+                Add(await Task.Run(() => new HDD.HarddriveGroup(settings)));
+            }
         }
 
-        public void Reset()
+        public async Task ResetAsync()
         {
             if (!open)
                 return;
 
             RemoveGroups();
-            AddGroups();
+            await AddGroupsAsync();
         }
 
         public bool MainboardEnabled

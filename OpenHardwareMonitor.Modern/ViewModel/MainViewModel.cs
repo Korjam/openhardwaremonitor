@@ -9,14 +9,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace OpenHardwareMonitor.Modern.ViewModel;
 
 public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
 {
+    private readonly Computer _computer;
+    private readonly DispatcherTimer _dispatcher;
+
     public MainViewModel(Computer computer, ISettings settings)
     {
+        _computer = computer;
         computer.CPUEnabled = true;
         computer.FanControllerEnabled = true;
         computer.GPUEnabled = true;
@@ -28,20 +33,23 @@ public class MainViewModel : ObservableObject, IMeasurePublisher<ISensor>
 
         Computer = new ComputerViewModel(computer, this, settings);
 
-        computer.Open();
-        Update();
-
-        var dispatcher = new DispatcherTimer()
+        _dispatcher = new DispatcherTimer()
         {
             Interval = TimeSpan.FromSeconds(1),
         };
-        dispatcher.Tick += (_, _) => Update();
-        dispatcher.Start();
+        _dispatcher.Tick += (_, _) => Update();
     }
 
     public ComputerViewModel Computer { get; }
 
     public PlotModel PlotModel { get; set; }
+
+    public async Task OpenAsync()
+    {
+        await _computer.OpenAsync();
+        Update();
+        _dispatcher.Start();
+    }
 
     public void Publish(ISensor sensor, TimeSpan timestamp)
     {
