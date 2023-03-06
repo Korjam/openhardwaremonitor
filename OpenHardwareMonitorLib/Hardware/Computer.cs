@@ -81,7 +81,6 @@ namespace OpenHardwareMonitor.Hardware
                 Remove(group);
         }
 
-        [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
         public async Task OpenAsync()
         {
             if (open)
@@ -144,8 +143,6 @@ namespace OpenHardwareMonitor.Hardware
         public bool MainboardEnabled
         {
             get { return mainboardEnabled; }
-
-            [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
             set
             {
                 if (open && value != mainboardEnabled)
@@ -162,8 +159,6 @@ namespace OpenHardwareMonitor.Hardware
         public bool CPUEnabled
         {
             get { return cpuEnabled; }
-
-            [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
             set
             {
                 if (open && value != cpuEnabled)
@@ -180,8 +175,6 @@ namespace OpenHardwareMonitor.Hardware
         public bool RAMEnabled
         {
             get { return ramEnabled; }
-
-            [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
             set
             {
                 if (open && value != ramEnabled)
@@ -198,8 +191,6 @@ namespace OpenHardwareMonitor.Hardware
         public bool GPUEnabled
         {
             get { return gpuEnabled; }
-
-            [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
             set
             {
                 if (open && value != gpuEnabled)
@@ -222,8 +213,6 @@ namespace OpenHardwareMonitor.Hardware
         public bool FanControllerEnabled
         {
             get { return fanControllerEnabled; }
-
-            [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
             set
             {
                 if (open && value != fanControllerEnabled)
@@ -246,8 +235,6 @@ namespace OpenHardwareMonitor.Hardware
         public bool HDDEnabled
         {
             get { return hddEnabled; }
-
-            [SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
             set
             {
                 if (open && value != hddEnabled)
