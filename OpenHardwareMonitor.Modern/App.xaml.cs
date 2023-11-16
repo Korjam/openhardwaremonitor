@@ -1,11 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OpenHardwareMonitor.Hardware;
 using OpenHardwareMonitor.Modern.Model;
 using OpenHardwareMonitor.Modern.Services;
 using OpenHardwareMonitor.Modern.View;
+using OpenHardwareMonitor.Modern.View.Pages;
 using OpenHardwareMonitor.Modern.ViewModel;
 using System.Windows;
+using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui.Mvvm.Services;
 
 namespace OpenHardwareMonitor.Modern;
 
@@ -21,13 +24,40 @@ public partial class App : Application
         _host = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
+                services.AddHostedService<ApplicationLifeService>();
+
                 services.AddSingleton<ISettings>(x => new Settings(@"C:\Temp\hardware-data.json"));
                 services.AddTransient<Computer>();
 
-                services.AddScoped<MainViewModel>();
-                services.AddScoped<MainWindow>();
+                // Theme manipulation
+                services.AddSingleton<IThemeService, ThemeService>();
 
-                services.AddHostedService<ApplicationLifeService>();
+                // Taskbar manipulation
+                services.AddSingleton<ITaskBarService, TaskBarService>();
+
+                // Snackbar service
+                services.AddSingleton<ISnackbarService, SnackbarService>();
+
+                // Dialog service
+                services.AddSingleton<IDialogService, DialogService>();
+
+                // Tray icon
+                //services.AddSingleton<INotifyIconService, NotifyIconService>();
+
+                // Service containing navigation, same as INavigationWindow... but without window
+                services.AddSingleton<INavigationService, NavigationService>();
+
+                // Page resolver service
+                services.AddSingleton<IPageService, PageService>();
+
+                services.AddScoped<MainViewModel>();
+                services.AddScoped<INavigationWindow, MainWindow>();
+
+                services.AddScoped<DevicesViewModel>();
+                services.AddScoped<DevicesPage>();
+
+                //services.AddScoped<SettingsViewModel>();
+                services.AddScoped<SettingsPage>();
             })
             .Build();
     }

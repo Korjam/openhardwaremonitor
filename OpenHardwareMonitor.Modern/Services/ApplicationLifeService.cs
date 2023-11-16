@@ -1,17 +1,18 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OpenHardwareMonitor.Modern.View;
-using OpenHardwareMonitor.Modern.ViewModel;
+using OpenHardwareMonitor.Modern.View.Pages;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Wpf.Ui.Mvvm.Contracts;
 
 namespace OpenHardwareMonitor.Modern.Services;
 
 public class ApplicationLifeService : IHostedService
 {
     private readonly IServiceProvider _serviceProvider;
-    private MainWindow? _window;
+
+    private INavigationWindow? _window;
 
     public ApplicationLifeService(IServiceProvider serviceProvider)
     {
@@ -20,16 +21,17 @@ public class ApplicationLifeService : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _window = _serviceProvider.GetRequiredService<MainWindow>();
-        _window.DataContext = _serviceProvider.GetRequiredService<MainViewModel>();
-        _window.Show();
+        _window = _serviceProvider.GetRequiredService<INavigationWindow>();
+        _window.ShowWindow();
+
+        _window.Navigate(typeof(DevicesPage));
 
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        _window?.Close();
+        _window?.CloseWindow();
         _window = null;
 
         return Task.CompletedTask;
