@@ -1,9 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
 using OpenHardwareMonitor.Modern.ViewModel;
 using System;
+using Wpf.Ui;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Contracts;
-using Wpf.Ui.Controls.Navigation;
+using Wpf.Ui.Controls;
 
 namespace OpenHardwareMonitor.Modern.View;
 
@@ -19,9 +18,9 @@ public partial class MainWindow : INavigationWindow
         IPageService pageService,
         IThemeService themeService,
         ISnackbarService snackbarService,
-        IDialogService contentDialogService)
+        IContentDialogService contentDialogService)
     {
-        Watcher.Watch(this);
+        SystemThemeWatcher.Watch(this);
 
         _themeService = themeService;
 
@@ -32,9 +31,9 @@ public partial class MainWindow : INavigationWindow
         // We define a page provider for navigation
         SetPageService(pageService);
 
-        snackbarService.SetSnackbarControl(Snackbar);
+        snackbarService.SetSnackbarPresenter(SnackbarPresenter);
         navigationService.SetNavigationControl(NavigationView);
-        contentDialogService.SetDialogControl(ContentDialog);
+        contentDialogService.SetContentPresenter(ContentDialog);
 
         //NavigationView.SetServiceProvider(serviceProvider);
         //NavigationView.Loaded += (_, _) => NavigationView.Navigate(typeof(DashboardPage));
@@ -57,7 +56,7 @@ public partial class MainWindow : INavigationWindow
 
     private void NavigationButtonTheme_OnClick(object sender, System.Windows.RoutedEventArgs e)
     {
-        _themeService.SetTheme(_themeService.GetTheme() == ThemeType.Dark ? ThemeType.Light : ThemeType.Dark);
+        _themeService.SetTheme(_themeService.GetTheme() == ApplicationTheme.Dark ? ApplicationTheme.Light : ApplicationTheme.Dark);
     }
 
     public void SetServiceProvider(IServiceProvider serviceProvider)

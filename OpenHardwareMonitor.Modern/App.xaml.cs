@@ -7,8 +7,7 @@ using OpenHardwareMonitor.Modern.View;
 using OpenHardwareMonitor.Modern.View.Pages;
 using OpenHardwareMonitor.Modern.ViewModel;
 using System.Windows;
-using Wpf.Ui.Contracts;
-using Wpf.Ui.Services;
+using Wpf.Ui;
 
 namespace OpenHardwareMonitor.Modern;
 
@@ -39,7 +38,7 @@ public partial class App : Application
                 services.AddSingleton<ISnackbarService, SnackbarService>();
 
                 // Dialog service
-                services.AddSingleton<IDialogService, DialogService>();
+                services.AddSingleton<IContentDialogService, ContentDialogService>();
 
                 // Tray icon
                 //services.AddSingleton<INotifyIconService, NotifyIconService>();

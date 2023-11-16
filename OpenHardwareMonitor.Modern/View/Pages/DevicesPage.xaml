@@ -1,4 +1,4 @@
-﻿<Page
+<Page
   x:Class="OpenHardwareMonitor.Modern.View.Pages.DevicesPage"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -28,8 +28,7 @@
       Background="Transparent"
       FontSize="{DynamicResource ControlContentThemeFontSize}"
       Grid.IsSharedSizeScope="True"
-      ItemsSource="{Binding Computer.Components}"
-      VirtualizingPanel.IsVirtualizing="True">
+      ItemsSource="{Binding Computer.Components}">
 
       <TreeView.Resources>
 

@@ -1,6 +1,6 @@
 using OpenHardwareMonitor.Modern.ViewModel;
 using System.Windows;
-using Wpf.Ui.Controls.Navigation;
+using Wpf.Ui.Controls;
 
 namespace OpenHardwareMonitor.Modern.View.Pages;
 

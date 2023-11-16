@@ -19,18 +19,12 @@
   WindowStartupLocation="CenterScreen"
   mc:Ignorable="d">
   <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
 
-    <ui:TitleBar
+    <ui:TitleBar x:Name="TitleBar"
       Title="Open Hardware Monitor"
-      Grid.Row="0"
       Icon="pack://application:,,,/Resources/wpfui.png" />
 
     <ui:NavigationView x:Name="NavigationView"
-      Grid.Row="1"
       IsBackButtonVisible="Collapsed"
       IsPaneOpen="False"
       IsPaneToggleVisible="True"
@@ -64,21 +58,18 @@
       </ui:NavigationView.FooterMenuItems>
 
       <ui:NavigationView.Header>
-        <ui:NavigationViewBreadcrumb Margin="42,32,0,0" />
+        <ui:BreadcrumbBar Margin="42,32,0,0" />
       </ui:NavigationView.Header>
 
       <ui:NavigationView.ContentOverlay>
         <Grid>
-          <ui:Snackbar x:Name="Snackbar" />
+          <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
         </Grid>
       </ui:NavigationView.ContentOverlay>
 
     </ui:NavigationView>
 
-    <ui:Dialog x:Name="ContentDialog"
-      Grid.Row="0"
-      Grid.RowSpan="2"
-      Padding="0,42,0,0" />
+    <ContentPresenter x:Name="ContentDialog" />
 
   </Grid>
 
